@@ -10,7 +10,7 @@ Use stable power and do not interrupt erase/write operations.
 
 `dist/mp60-openwrt-25.12.6-r7.bin` is an Open Mesh CE/P60 dual-slot recovery image. 
 The supplied image contains no SSH authorized key - so SSH effectively is disabled, until you build your own image with your key. 
-Without rebuilding with a public key, use the HTTP UI or UART for initial access.
+Without rebuilding with a public key, use the HTTP UI for initial access.
 
 Verify the download before flashing:
 
@@ -21,7 +21,7 @@ sha256sum -c SHA256SUMS.txt
 
 ## Network recovery flash
 
-Use the original `open-mesh-flash-ng.exe` on Windows with Npcap. Connect an isolated direct Ethernet link or isolated dumb switch. Start a UART capture before power-cycling.
+Use the original `open-mesh-flash-ng.exe` on Windows with Npcap. Connect an isolated direct Ethernet link or isolated dumb switch. 
 Alternatively use AP521 Flasher project https://github.com/ap51-flash/ap51-flash
 
 List the flasher options and interfaces:
