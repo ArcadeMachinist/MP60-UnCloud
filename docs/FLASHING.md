@@ -22,7 +22,7 @@ sha256sum -c SHA256SUMS.txt
 ## Network recovery flash
 
 Use the original `open-mesh-flash-ng.exe` on Windows with Npcap. Connect an isolated direct Ethernet link or isolated dumb switch. 
-Alternatively use AP521 Flasher project https://github.com/ap51-flash/ap51-flash
+Alternatively use AP51 Flasher project https://github.com/ap51-flash/ap51-flash
 
 List the flasher options and interfaces:
 
