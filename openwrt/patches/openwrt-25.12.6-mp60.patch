@@ -1,5 +1,5 @@
 diff --git a/scripts/om-fwupgradecfg-gen.sh b/scripts/om-fwupgradecfg-gen.sh
-index c385841..d3fc0f8 100755
+index c385841..580beab 100755
 --- a/scripts/om-fwupgradecfg-gen.sh
 +++ b/scripts/om-fwupgradecfg-gen.sh
 @@ -7,7 +7,7 @@
@@ -19,7 +19,7 @@ index c385841..d3fc0f8 100755
  	OM2P)
  		MAX_PART_SIZE=7168
  		KERNEL_FLASH_ADDR=0x1c0000
-@@ -63,7 +64,14 @@ ROOTFS_FLASH_ADDR=$(addr=$(($KERNEL_FLASH_ADDR + ($KERNEL_PART_SIZE_KB * 1024)))
+@@ -63,12 +64,22 @@ ROOTFS_FLASH_ADDR=$(addr=$(($KERNEL_FLASH_ADDR + ($KERNEL_PART_SIZE_KB * 1024)))
  ROOTFS_SIZE=$(stat -c%s "$ROOTFS_PATH")
  ROOTFS_SQUASHFS_SIZE=$((ROOTFS_SIZE-4))
  ROOTFS_CHECK_BLOCKS=$((ROOTFS_SQUASHFS_SIZE / CHECK_BS))
@@ -35,6 +35,31 @@ index c385841..d3fc0f8 100755
  ROOTFS_MD5_FULL=$($MKHASH md5 $ROOTFS_PATH)
  ROOTFS_SHA256_FULL=$($MKHASH sha256 $ROOTFS_PATH)
  ROOTFS_CHECK_SIZE=$(printf '0x%x' $ROOTFS_SQUASHFS_SIZE)
+ ROOTFS_PART_SIZE_KB=$(($MAX_PART_SIZE - $KERNEL_PART_SIZE_KB))
+ ROOTFS_PART_SIZE=$(printf $SIZE_FORMAT $(($ROOTFS_PART_SIZE_KB * $SIZE_FACTOR)))
++KERNEL_START_ADDR=0x9f1c0000
++KERNEL_SIZE_HEX=$(printf '0x%x' $KERNEL_SIZE)
++ROOTFS_START_ADDR=$(printf '0x%x' $((0x9f000000 + $KERNEL_FLASH_ADDR + $KERNEL_SIZE)))
+ 
+ cat << EOF > $CFG_OUT
+ [vmlinux]
+@@ -78,7 +89,7 @@ filemd5sum=$KERNEL_MD5
+ filesha256sum=$KERNEL_SHA256
+ flashaddr=$KERNEL_FLASH_ADDR
+ checksize=0x0
+-cmd_success=setenv bootseq 1,2; setenv kernel_size_1 $KERNEL_PART_SIZE; saveenv
++cmd_success=setenv bootseq 1,2; setenv kernel_size_1 $KERNEL_PART_SIZE; setenv vmlinux_start_addr $KERNEL_START_ADDR; setenv vmlinux_size $KERNEL_SIZE_HEX; setenv vmlinux_checksum $KERNEL_MD5; saveenv
+ cmd_fail=reset
+ 
+ [rootfs]
+@@ -88,6 +99,6 @@ filemd5sum=$ROOTFS_MD5_FULL
+ filesha256sum=$ROOTFS_SHA256_FULL
+ flashaddr=$ROOTFS_FLASH_ADDR
+ checksize=$ROOTFS_CHECK_SIZE
+-cmd_success=setenv bootseq 1,2; setenv kernel_size_1 $KERNEL_PART_SIZE; setenv rootfs_size_1 $ROOTFS_PART_SIZE; saveenv
++cmd_success=setenv bootseq 1,2; setenv kernel_size_1 $KERNEL_PART_SIZE; setenv rootfs_size_1 $ROOTFS_PART_SIZE; setenv rootfs_start_addr $ROOTFS_START_ADDR; setenv rootfs_size $ROOTFS_CHECK_SIZE; setenv rootfs_checksum $ROOTFS_MD5; saveenv
+ cmd_fail=reset
+ EOF
 diff --git a/target/linux/ath79/generic/base-files/etc/board.d/02_network b/target/linux/ath79/generic/base-files/etc/board.d/02_network
 index 6be9d44..241a8fe 100644
 --- a/target/linux/ath79/generic/base-files/etc/board.d/02_network

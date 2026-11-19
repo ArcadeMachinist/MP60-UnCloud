@@ -1,10 +1,10 @@
 {
-  "image": "/mnt/c/Users/PLAYER-1/Desktop/StarWing/MP60-UnCloud/dist/mp60-openwrt-25.12.6-r8.bin",
-  "size": 6882181,
-  "sha256": "015bcdde22436c0f0b3dc2b941a47a0e8ee8c7a1384e623913099dde4a892c0e",
+  "image": "/mnt/c/Users/PLAYER-1/Desktop/StarWing/MP60-UnCloud/dist/mp60-openwrt-25.12.6-r9.bin",
+  "size": 6882430,
+  "sha256": "9415ab4dd0e86152cf27048cdc44d8d690f2b8387434b8e7b906ed4e5c9685f1",
   "ce_type": "P60",
   "payload_md5_checks_passed": 3,
-  "payload_end": 6881924,
+  "payload_end": 6882173,
   "metadata_trailing_bytes": 257,
   "slot_payload_bytes": 6815748,
   "slot_free_bytes": 524284,
@@ -32,9 +32,9 @@
   "parts": [
     {
       "name": "fwupgrade.cfg",
-      "length": 640,
-      "md5": "052a6326913faad183d94bbff824b87d",
-      "sha256": "773167761e262f6afb2fd40eb44bb0fdf02462383be654b5cda09555d00004f9",
+      "length": 889,
+      "md5": "8454c401f8c1148a400221ad99f76ad6",
+      "sha256": "0ac81d088879c9b95c5eb74ac335f1020a302dbc773bce9a66cfd18a05c952c2",
       "offset": 65536
     },
     {
@@ -42,14 +42,14 @@
       "length": 2883584,
       "md5": "c7b0ddd203f5453d7f08327838f6ec6f",
       "sha256": "c51595e8d3673bd240fbc3ebbbc3c95f2ec4a5653959d203a8dcf3023c69739f",
-      "offset": 66176
+      "offset": 66425
     },
     {
       "name": "rootfs",
       "length": 3932164,
       "md5": "afa3b12655595d54c552d178b81c386b",
       "sha256": "16860d2a316a589e28656c2305278c587ce4e6e03ce796194d63946e3cd89f74",
-      "offset": 2949760
+      "offset": 2950009
     }
   ],
   "runtime_status": "Statically verified; not booted or flashed"

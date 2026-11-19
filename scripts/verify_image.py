@@ -129,6 +129,19 @@ def verify(image_path):
             "Bootloader kernel size is not updated")
     require(f"setenv rootfs_size_1 {rootfs_kb}" in config["rootfs"]["cmd_success"],
             "Bootloader rootfs size is not updated")
+    require(f"setenv vmlinux_start_addr 0x9f1c0000" in config["vmlinux"]["cmd_success"],
+            "Bootloader kernel start address is not updated")
+    require(f"setenv vmlinux_size 0x{len(kernel):x}" in config["vmlinux"]["cmd_success"],
+            "Bootloader data-check kernel size is not updated")
+    require(f"setenv vmlinux_checksum {records[1]['md5']}" in config["vmlinux"]["cmd_success"],
+            "Bootloader data-check kernel MD5 is not updated")
+    runtime_rootfs_addr = 0x9F000000 + expected_rootfs_addr
+    require(f"setenv rootfs_start_addr 0x{runtime_rootfs_addr:x}" in config["rootfs"]["cmd_success"],
+            "Bootloader data-check rootfs address is not updated")
+    require(f"setenv rootfs_size 0x{len(rootfs) - 4:x}" in config["rootfs"]["cmd_success"],
+            "Bootloader data-check rootfs size is not updated")
+    require(f"setenv rootfs_checksum {config['rootfs']['md5sum']}" in config["rootfs"]["cmd_success"],
+            "Bootloader data-check rootfs MD5 is not updated")
 
     return {
         "image": str(image_path.resolve()),
