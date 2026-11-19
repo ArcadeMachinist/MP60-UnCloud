@@ -1,0 +1,6 @@
+.openwrt/
+**/build/
+**/__pycache__/
+*.pyc
+/package/utils/mp60d/files/etc/dropbear/authorized_keys
+*.local

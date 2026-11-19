@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# The MP60 uses Wi-Fi as a local management interface, not as a WAN uplink.
+# Allow HTTP, SSH, ping and MQTT client traffic through the LAN firewall zone.
+uci -q add_list firewall.@zone[0].network='wwan'
+uci -q commit firewall
+exit 0

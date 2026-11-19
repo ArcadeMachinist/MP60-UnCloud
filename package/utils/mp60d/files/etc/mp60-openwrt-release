@@ -1,0 +1,5 @@
+MP60_FIRMWARE='OpenWrt 25.12.6'
+MP60D_VERSION='1.5.1'
+MP60_PROFILE='datto_mp60'
+MP60_IMAGE_FORMAT='Open Mesh CE P60 dual-slot'
+MP60_HARDWARE_TESTS='required-after-flashing'

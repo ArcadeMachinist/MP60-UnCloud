@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Optionally install a public key supplied at package/utils/mp60d/files/etc/
+# dropbear/authorized_keys before building. Never include a private key.
+mkdir -p /etc/dropbear
+if [ -f /etc/dropbear/authorized_keys ]; then
+	chown root:root /etc/dropbear /etc/dropbear/authorized_keys
+	chmod 0755 /etc/dropbear
+	chmod 0600 /etc/dropbear/authorized_keys
+fi
+
+# Console/UI setup remains available when no key was embedded. Password-based
+# SSH is disabled deliberately; add your own public key and rebuild for SSH.
+uci -q batch <<EOF
+set dropbear.main.enable='1'
+set dropbear.main.PasswordAuth='off'
+set dropbear.main.RootPasswordAuth='off'
+set dropbear.main.Port='22'
+commit dropbear
+EOF
+exit 0

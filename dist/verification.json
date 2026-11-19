@@ -1,0 +1,56 @@
+{
+  "image": "/mnt/c/Users/PLAYER-1/Desktop/StarWing/MP60-UnCloud/dist/mp60-openwrt-25.12.6-r7.bin",
+  "size": 6882181,
+  "sha256": "34a81137f91b0afb222578f0b89e31e8d4adf869fb78415ab4582160bc8ecde3",
+  "ce_type": "P60",
+  "payload_md5_checks_passed": 3,
+  "payload_end": 6881924,
+  "metadata_trailing_bytes": 257,
+  "slot_payload_bytes": 6815748,
+  "slot_free_bytes": 524284,
+  "kernel_flash_addr": "0x1c0000",
+  "rootfs_flash_addr": "0x480000",
+  "kernel_padded_size": 2883584,
+  "rootfs_packaged_size": 3932164,
+  "rootfs_squashfs_size": 3670776,
+  "rootfs_padding_verified": true,
+  "rootfs_deadc0de_trailer_verified": true,
+  "config_hashes_verified": true,
+  "bootloader_sizes_verified": true,
+  "kernel_uimage": {
+    "name": "MIPS OpenWrt Linux-6.12.112",
+    "payload_size": 2788410,
+    "load_address": "0x80060000",
+    "entry_point": "0x80060000",
+    "os_id": 5,
+    "architecture_id": 5,
+    "image_type_id": 2,
+    "compression_id": 3,
+    "header_crc_verified": true,
+    "data_crc_verified": true
+  },
+  "parts": [
+    {
+      "name": "fwupgrade.cfg",
+      "length": 640,
+      "md5": "6d1e95b6976a6896873aa74ce28e382f",
+      "sha256": "3ba3da91ddc9f0678f330a87719a3a8a4ab4ad8f9b1b4f9af7291dd89bf1b7b3",
+      "offset": 65536
+    },
+    {
+      "name": "kernel",
+      "length": 2883584,
+      "md5": "c7b0ddd203f5453d7f08327838f6ec6f",
+      "sha256": "c51595e8d3673bd240fbc3ebbbc3c95f2ec4a5653959d203a8dcf3023c69739f",
+      "offset": 66176
+    },
+    {
+      "name": "rootfs",
+      "length": 3932164,
+      "md5": "6b3013600cd453f2a7de23cbc5438663",
+      "sha256": "e45188f6eb28ad972eb639432beb6ffc8f09decb1e1b792a1bec7f9a7c46e0a8",
+      "offset": 2949760
+    }
+  ],
+  "runtime_status": "Statically verified; not booted or flashed"
+}

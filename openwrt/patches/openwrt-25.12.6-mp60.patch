@@ -1,0 +1,84 @@
+diff --git a/scripts/om-fwupgradecfg-gen.sh b/scripts/om-fwupgradecfg-gen.sh
+index c385841..d3fc0f8 100755
+--- a/scripts/om-fwupgradecfg-gen.sh
++++ b/scripts/om-fwupgradecfg-gen.sh
+@@ -7,7 +7,7 @@
+ #
+ 
+ usage() {
+-	echo "Usage: $0 <OM2P|OM5P|OM5PAC|MR600|MR900|MR1750|A60|A42|A62|PA300|PA1200|PA2200> <out file path> <kernel path> <rootfs path>"
++	echo "Usage: $0 <P60|OM2P|OM5P|OM5PAC|MR600|MR900|MR1750|A60|A42|A62|PA300|PA1200|PA2200> <out file path> <kernel path> <rootfs path>"
+ 	rm -f $CFG_OUT
+ 	exit 1
+ }
+@@ -21,6 +21,7 @@ ROOTFS_PATH=$4
+ 
+ case $CE_TYPE in
+ 	PA300|\
++	P60|\
+ 	OM2P)
+ 		MAX_PART_SIZE=7168
+ 		KERNEL_FLASH_ADDR=0x1c0000
+@@ -63,7 +64,14 @@ ROOTFS_FLASH_ADDR=$(addr=$(($KERNEL_FLASH_ADDR + ($KERNEL_PART_SIZE_KB * 1024)))
+ ROOTFS_SIZE=$(stat -c%s "$ROOTFS_PATH")
+ ROOTFS_SQUASHFS_SIZE=$((ROOTFS_SIZE-4))
+ ROOTFS_CHECK_BLOCKS=$((ROOTFS_SQUASHFS_SIZE / CHECK_BS))
+-ROOTFS_MD5=$(dd if=$ROOTFS_PATH bs=$CHECK_BS count=$ROOTFS_CHECK_BLOCKS 2>&- | $MKHASH md5)
++# Current mkhash requires a filename; without one it hashes empty input.
++ROOTFS_CHECK_TMP=$(mktemp "$ROOTFS_PATH.check.XXXXXX") || exit 1
++if ! dd if="$ROOTFS_PATH" of="$ROOTFS_CHECK_TMP" bs=$CHECK_BS count=$ROOTFS_CHECK_BLOCKS 2>/dev/null; then
++	rm -f "$ROOTFS_CHECK_TMP"
++	exit 1
++fi
++ROOTFS_MD5=$($MKHASH md5 "$ROOTFS_CHECK_TMP")
++rm -f "$ROOTFS_CHECK_TMP"
+ ROOTFS_MD5_FULL=$($MKHASH md5 $ROOTFS_PATH)
+ ROOTFS_SHA256_FULL=$($MKHASH sha256 $ROOTFS_PATH)
+ ROOTFS_CHECK_SIZE=$(printf '0x%x' $ROOTFS_SQUASHFS_SIZE)
+diff --git a/target/linux/ath79/generic/base-files/etc/board.d/02_network b/target/linux/ath79/generic/base-files/etc/board.d/02_network
+index 6be9d44..241a8fe 100644
+--- a/target/linux/ath79/generic/base-files/etc/board.d/02_network
++++ b/target/linux/ath79/generic/base-files/etc/board.d/02_network
+@@ -8,6 +8,9 @@ ath79_setup_interfaces()
+ 	local board="$1"
+ 
+ 	case "$board" in
++	datto,mp60)
++		ucidef_set_interface_lan "eth0" "dhcp"
++		;;
+ 	adtran,bsap1800-v2|\
+ 	adtran,bsap1840|\
+ 	allnet,all-wap02860ac|\
+diff --git a/target/linux/ath79/generic/base-files/lib/upgrade/platform.sh b/target/linux/ath79/generic/base-files/lib/upgrade/platform.sh
+index 77a8086..e998440 100644
+--- a/target/linux/ath79/generic/base-files/lib/upgrade/platform.sh
++++ b/target/linux/ath79/generic/base-files/lib/upgrade/platform.sh
+@@ -92,6 +92,7 @@ platform_do_upgrade() {
+ 	jjplus,ja76pf2)
+ 		platform_do_upgrade_redboot_fis "$1" linux
+ 		;;
++	datto,mp60|\
+ 	openmesh,a40|\
+ 	openmesh,a60|\
+ 	openmesh,mr600-v1|\
+diff --git a/target/linux/ath79/image/generic.mk b/target/linux/ath79/image/generic.mk
+index c5eb589..a9bb87a 100644
+--- a/target/linux/ath79/image/generic.mk
++++ b/target/linux/ath79/image/generic.mk
+@@ -2419,6 +2419,16 @@ define Device/openmesh_common_256k
+ 	openmesh-image ce_type=$$$$(OPENMESH_CE_TYPE) | append-metadata
+ endef
+ 
++define Device/datto_mp60
++  $(Device/openmesh_common_256k)
++  SOC := qca9533
++  DEVICE_VENDOR := Datto
++  DEVICE_MODEL := MP60
++  DEVICE_PACKAGES += kmod-i2c-gpio mp60d
++  OPENMESH_CE_TYPE := P60
++endef
++TARGET_DEVICES += datto_mp60
++
+ define Device/openmesh_a40
+   $(Device/openmesh_common_64k)
+   SOC := qca9558
