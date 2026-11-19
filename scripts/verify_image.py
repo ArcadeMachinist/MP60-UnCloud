@@ -116,7 +116,9 @@ def verify(image_path):
     require(rootfs[squashfs_size:-4] == b"\xff" * (len(rootfs) - squashfs_size - 4),
             "Unexpected rootfs padding")
     squashfs_size_field = int(config["rootfs"]["checksize"], 0)
-    require(squashfs_size_field == len(rootfs) - 4, "Wrong rootfs check size")
+    expected_check_size = (squashfs_size // 65536) * 65536
+    require(squashfs_size_field == expected_check_size,
+            "Rootfs check must cover only complete immutable SquashFS blocks")
     check_blocks = squashfs_size_field // 65536
     flash_md5 = digest("md5", rootfs[:check_blocks * 65536])
     require(config["rootfs"]["md5sum"] == flash_md5,
@@ -138,8 +140,8 @@ def verify(image_path):
     runtime_rootfs_addr = 0x9F000000 + expected_rootfs_addr
     require(f"setenv rootfs_start_addr 0x{runtime_rootfs_addr:x}" in config["rootfs"]["cmd_success"],
             "Bootloader data-check rootfs address is not updated")
-    require(f"setenv rootfs_size 0x{len(rootfs) - 4:x}" in config["rootfs"]["cmd_success"],
-            "Bootloader data-check rootfs size is not updated")
+    require(f"setenv rootfs_size 0x{expected_check_size:x}" in config["rootfs"]["cmd_success"],
+            "Bootloader data-check rootfs size includes writable overlay blocks")
     require(f"setenv rootfs_checksum {config['rootfs']['md5sum']}" in config["rootfs"]["cmd_success"],
             "Bootloader data-check rootfs MD5 is not updated")
 

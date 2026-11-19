@@ -19,7 +19,7 @@ Flashing third-party firmware can damage the device; keep original backups and p
 
 ## Ready-made image
 
-`dist/mp60-openwrt-25.12.6-r9.bin` is the native OpenWrt 25.12.6 CE recovery image. 
+`dist/mp60-openwrt-25.12.6-r10.bin` is the native OpenWrt 25.12.6 CE recovery image. 
 It is built **without an SSH authorized key**. 
 Dropbear password login is disabled. 
 Use the local web UI or UART unless you build with your own public key.

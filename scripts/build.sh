@@ -6,7 +6,7 @@ OPENWRT_VERSION="25.12.6"
 OPENWRT_COMMIT="64900e756efa667774214f9c6b17c113222e01f7"
 OPENWRT_DIR="${OPENWRT_DIR:-$ROOT/.openwrt}"
 JOBS="${JOBS:-16}"
-IMAGE_NAME="mp60-openwrt-${OPENWRT_VERSION}-r9.bin"
+IMAGE_NAME="mp60-openwrt-${OPENWRT_VERSION}-r10.bin"
 KEY_FILE="$ROOT/package/utils/mp60d/files/etc/dropbear/authorized_keys"
 
 if [ ! -d "$OPENWRT_DIR/.git" ]; then
