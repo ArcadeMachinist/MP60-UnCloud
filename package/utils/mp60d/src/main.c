@@ -408,11 +408,8 @@ int main(int argc, char **argv)
     app.hardware_stale = 1;
     snprintf(app.hardware_error, sizeof(app.hardware_error), "No metering sample yet");
     mqtt_reset(&app);
-    if (app.config.wifi_enabled && !app.simulate) {
-        char wifi_error[160];
-        if (wifi_apply(&app.config, wifi_error, sizeof(wifi_error)))
-            log_msg("error", "Initial Wi-Fi setup failed: %s", wifi_error);
-    }
+    /* OpenWrt restores persisted network/wireless configuration at boot.
+       Never reload networking here; apply changes only from the UI/API. */
     if (hardware_set_mask(&app, app.config.outlet_mask)) {
         app.hardware_errors++;
         snprintf(app.hardware_error, sizeof(app.hardware_error), "Initial I2C outlet write failed: %s", strerror(errno));

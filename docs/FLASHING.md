@@ -8,7 +8,7 @@ Use stable power and do not interrupt erase/write operations.
 
 ## Supplied image
 
-`dist/mp60-openwrt-25.12.6-r7.bin` is an Open Mesh CE/P60 dual-slot recovery image. 
+`dist/mp60-openwrt-25.12.6-r8.bin` is an Open Mesh CE/P60 dual-slot recovery image. 
 The supplied image contains no SSH authorized key - so SSH effectively is disabled, until you build your own image with your key. 
 Without rebuilding with a public key, use the HTTP UI or UART for initial access.
 
@@ -33,7 +33,7 @@ open-mesh-flash-ng.exe --help
 Replace the placeholders with the MP60 MAC address and the interface reported by the flasher:
 
 ```bat
-open-mesh-flash-ng.exe -m <MP60_MAC> <INTERFACE> mp60-openwrt-25.12.6-r7.bin
+open-mesh-flash-ng.exe -m <MP60_MAC> <INTERFACE> mp60-openwrt-25.12.6-r8.bin
 ```
 
 Start the flasher, then power-cycle the MP60 to enter network recovery. 

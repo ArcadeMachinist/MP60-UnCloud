@@ -35,7 +35,7 @@ def expect(condition, message):
 
 status, state = request("/api/status")
 expect(status == 200 and state["backend"] == "simulator", "simulator status")
-expect(state["version"] == "1.5.1" and state["firmware"] == "OpenWrt 25.12.6" and state["kernel"],
+expect(state["version"] == "1.5.2" and state["firmware"] == "OpenWrt 25.12.6" and state["kernel"],
        "standalone firmware and running-kernel versions")
 expect(len(state["outlets"]) == 6 and "voltage_v" in state["hardware"], "six outlets and metering")
 expect(state["hardware"]["age_s"] >= 0 and state["hardware"]["last_poll_ok"] and not state["hardware"]["stale"],

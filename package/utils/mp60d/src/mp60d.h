@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <time.h>
 
-#define MP60_VERSION "1.5.1"
+#define MP60_VERSION "1.5.2"
 #define MP60_FIRMWARE_NAME "OpenWrt 25.12.6"
 #define MP60_OUTLETS 6
 #define MP60_CONFIG_PATH "/etc/mp60d.conf"
