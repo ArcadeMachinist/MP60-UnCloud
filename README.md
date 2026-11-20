@@ -6,6 +6,9 @@ It replaces the Open Mesh cloud-dependent services with a local daemon, web inte
 This is not affiliated with Datto or Open Mesh. 
 Flashing third-party firmware can damage the device; keep original backups and proceed at your own risk.
 
+<img width="1055" height="851" alt="Screenshot 2026-11-19 at 12 34 31" src="https://github.com/user-attachments/assets/a9fc9ab8-0ca0-4d25-be73-65f073179f34" />
+
+
 ## Features
 
 - Six individually controlled relays with hardware-reported state readback.
